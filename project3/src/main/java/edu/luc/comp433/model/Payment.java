@@ -30,6 +30,8 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import edu.luc.comp433.model.enumerator.PaymentType;
 
 /**
@@ -66,15 +68,13 @@ public class Payment implements BaseEntity<Short> {
 	@Basic(optional = true)
 	private String cardNumber;
 	@Basic(optional = true)
-    private String cardHolderName;
+	private String cardHolderName;
 	@Basic(optional = true)
-    private int expirationMonth;
+	private int expirationMonth;
 	@Basic(optional = true)
-    private int expirationYear;
+	private int expirationYear;
 	@Basic(optional = true)
-    private int securityCode;
-	
-	
+	private int securityCode;
 
 	public Payment() {
 	}
@@ -89,10 +89,12 @@ public class Payment implements BaseEntity<Short> {
 		this.amount = amount;
 	}
 
+	@Override
 	public Short getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Short id) {
 		this.id = id;
 	}
@@ -114,6 +116,7 @@ public class Payment implements BaseEntity<Short> {
 	}
 
 	@XmlTransient
+	@JsonIgnore
 	public List<Order> getOrderList() {
 		return orderList;
 	}
@@ -122,6 +125,7 @@ public class Payment implements BaseEntity<Short> {
 		this.orderList = orderList;
 	}
 
+	@JsonIgnore
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -138,7 +142,8 @@ public class Payment implements BaseEntity<Short> {
 	}
 
 	/**
-	 * @param cardNumber the cardNumber to set
+	 * @param cardNumber
+	 *            the cardNumber to set
 	 */
 	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
@@ -152,7 +157,8 @@ public class Payment implements BaseEntity<Short> {
 	}
 
 	/**
-	 * @param cardHolderName the cardHolderName to set
+	 * @param cardHolderName
+	 *            the cardHolderName to set
 	 */
 	public void setCardHolderName(String cardHolderName) {
 		this.cardHolderName = cardHolderName;
@@ -166,7 +172,8 @@ public class Payment implements BaseEntity<Short> {
 	}
 
 	/**
-	 * @param expirationMonth the expirationMonth to set
+	 * @param expirationMonth
+	 *            the expirationMonth to set
 	 */
 	public void setExpirationMonth(int expirationMonth) {
 		this.expirationMonth = expirationMonth;
@@ -180,7 +187,8 @@ public class Payment implements BaseEntity<Short> {
 	}
 
 	/**
-	 * @param expirationYear the expirationYear to set
+	 * @param expirationYear
+	 *            the expirationYear to set
 	 */
 	public void setExpirationYear(int expirationYear) {
 		this.expirationYear = expirationYear;
@@ -194,7 +202,8 @@ public class Payment implements BaseEntity<Short> {
 	}
 
 	/**
-	 * @param securityCode the securityCode to set
+	 * @param securityCode
+	 *            the securityCode to set
 	 */
 	public void setSecurityCode(int securityCode) {
 		this.securityCode = securityCode;
@@ -209,7 +218,8 @@ public class Payment implements BaseEntity<Short> {
 		result = prime * result
 				+ ((orderList == null) ? 0 : orderList.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result
+				+ ((customer == null) ? 0 : customer.hashCode());
 		return result;
 	}
 
@@ -256,4 +266,3 @@ public class Payment implements BaseEntity<Short> {
 	}
 
 }
-

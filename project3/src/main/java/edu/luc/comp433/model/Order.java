@@ -22,13 +22,15 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import edu.luc.comp433.model.enumerator.OrderStatus;
 
 /**
  *
  * @author Thiago Vieira Puluceno
  */
-@Entity(name="Order_")
+@Entity(name = "Order_")
 @Table(schema = "bookstore")
 @XmlRootElement
 @NamedQueries({
@@ -77,10 +79,12 @@ public class Order implements BaseEntity<Short> {
 		this.payment = payment;
 	}
 
+	@Override
 	public Short getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Short id) {
 		this.id = id;
 	}
@@ -94,6 +98,7 @@ public class Order implements BaseEntity<Short> {
 	}
 
 	@XmlTransient
+	@JsonIgnore
 	public List<Book> getBookList() {
 		return bookList;
 	}
@@ -135,7 +140,8 @@ public class Order implements BaseEntity<Short> {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((payment == null) ? 0 : payment.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result
+				+ ((customer == null) ? 0 : customer.hashCode());
 		return result;
 	}
 
@@ -182,4 +188,3 @@ public class Order implements BaseEntity<Short> {
 	}
 
 }
-

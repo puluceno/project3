@@ -48,7 +48,7 @@ public class Customer implements BaseEntity<Short> {
 	private String name;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Address> addressList = new ArrayList<Address>();
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Order> orderList = new ArrayList<Order>();
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Payment> paymentList = new ArrayList<Payment>();
@@ -67,10 +67,12 @@ public class Customer implements BaseEntity<Short> {
 		this.name = name;
 	}
 
+	@Override
 	public Short getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Short id) {
 		this.id = id;
 	}
@@ -196,4 +198,3 @@ public class Customer implements BaseEntity<Short> {
 	}
 
 }
-

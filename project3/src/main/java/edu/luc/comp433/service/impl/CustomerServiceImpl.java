@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import edu.luc.comp433.dao.CustomerDao;
 import edu.luc.comp433.dao.impl.CustomerDaoImpl;
@@ -18,8 +19,6 @@ import edu.luc.comp433.model.Address;
 import edu.luc.comp433.model.Customer;
 import edu.luc.comp433.model.Payment;
 import edu.luc.comp433.service.CustomerService;
-import edu.luc.comp433.service.exception.InvalidAddressException;
-import edu.luc.comp433.service.exception.InvalidPaymentException;
 
 /**
  * @author Bruno Correa <brunogmc at gmail>
@@ -33,33 +32,34 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	@GET
 	@Path("/{login}")
-	@Produces("{application/json,application/xml}")
+	@Produces("application/json")
 	public Customer findCustomerByLogin(@PathParam("login") String login) {
 		return customerDao.findByLogin(login);
 	}
 
 	@Override
 	@POST
-	@Consumes("{application/json, application/xml}")
-	// TODO: FIX the payload because it just support one incoming object
-	public Response createCustomer(Customer customer, Address address,
-			Payment payment) {
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response createCustomer(Customer customer) {
 
 		try {
 			customerDao.getEntityManager().getTransaction().begin();
-			if (null == address)
-				throw new InvalidAddressException();
+			if (customer == null || customer.getAddressList() == null
+					|| customer.getAddressList().isEmpty()
+					|| customer.getPaymentList() == null
+					|| customer.getPaymentList().isEmpty())
+				return Response.status(Status.EXPECTATION_FAILED).build();
 
-			customer.getAddressList().add(address);
-			address.setCustomer(customer);
+			for (Address address : customer.getAddressList()) {
+				address.setCustomer(customer);
+			}
 
-			if (null == payment)
-				throw new InvalidPaymentException();
+			for (Payment payment : customer.getPaymentList()) {
+				payment.setCustomer(customer);
+			}
 
-			customer.getPaymentList().add(payment);
-			payment.setCustomer(customer);
-
-			if (null != customer.getId()) {
+			if (customer.getId() != null) {
 				customer = customerDao.attach(customer);
 				customerDao.merge(customer);
 			} else {
@@ -79,8 +79,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	@PUT
 	@Path("/{customerId}")
-	@Produces("{application/json,application/xml}")
-	@Consumes("{application/json, application/xml}")
+	@Consumes("application/json")
+	@Produces("application/json")
 	public Customer updateCustomer(@PathParam("customerId") Short customerId,
 			Customer customer) {
 		// TODO CREATE UPDATE METHOD

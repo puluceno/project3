@@ -11,6 +11,7 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 		<jaxrs:serviceBeans>
 			<bean id="paymentService" class="edu.luc.comp433.service.impl.PaymentServiceImpl" />
 			<bean id="paymentService" class="edu.luc.comp433.service.impl.BookServiceImpl" />
+			<bean id="customerService" class="edu.luc.comp433.service.impl.CustomerServiceImpl" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />

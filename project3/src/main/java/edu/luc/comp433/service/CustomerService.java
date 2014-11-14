@@ -5,9 +5,7 @@ package edu.luc.comp433.service;
 
 import javax.ws.rs.core.Response;
 
-import edu.luc.comp433.model.Address;
 import edu.luc.comp433.model.Customer;
-import edu.luc.comp433.model.Payment;
 
 /**
  * @author Bruno Correa <brunogmc at gmail>
@@ -17,6 +15,14 @@ import edu.luc.comp433.model.Payment;
 
 public interface CustomerService extends BaseService<Short, Customer> {
 
+	/**
+	 * Method responsible for returning customer data once his login is
+	 * provided.
+	 *
+	 * @param login
+	 *            User login
+	 * @return All customer data.
+	 */
 	public Customer findCustomerByLogin(String login);
 
 	/**
@@ -25,8 +31,7 @@ public interface CustomerService extends BaseService<Short, Customer> {
 	 * @param payment
 	 * @return
 	 */
-	public Response createCustomer(Customer customer, Address address,
-			Payment payment);
+	public Response createCustomer(Customer customer);
 
 	public Customer updateCustomer(Short customerId, Customer customer);
 
