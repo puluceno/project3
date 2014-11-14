@@ -9,8 +9,9 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 
 	<jaxrs:server id="services" address="/">
 		<jaxrs:serviceBeans>
-			<bean id="paymentService" class="edu.luc.comp433.service.impl.PaymentServiceImpl" />
-			<bean id="paymentService" class="edu.luc.comp433.service.impl.BookServiceImpl" />
+			<bean id="paymentService" class="edu.luc.comp433.service.resource.PaymentServiceImpl" />
+			<bean id="bookResource" class="edu.luc.comp433.service.resource.BookResource" />
+			<bean id="customerResource" class="edu.luc.comp433.service.resource.CustomerResource" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />

@@ -1,7 +1,7 @@
 /**
  *
  */
-package edu.luc.comp433.service.impl;
+package edu.luc.comp433.service.resource;
 
 import java.util.List;
 
@@ -10,10 +10,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import edu.luc.comp433.dao.AddressDao;
-import edu.luc.comp433.dao.impl.AddressDaoImpl;
 import edu.luc.comp433.model.Address;
 import edu.luc.comp433.service.AddressService;
+import edu.luc.comp433.service.workflow.AddressActivity;
 
 /**
  * @author Bruno Correa <brunogmc at gmail>
@@ -21,16 +20,16 @@ import edu.luc.comp433.service.AddressService;
  *
  */
 @Path("/address")
-public class AddressServiceImpl implements AddressService {
+public class AddressResource implements AddressService {
 
-	private AddressDao addressDao = new AddressDaoImpl();
+	AddressActivity addressActivity = new AddressActivity();
 
 	@Override
 	@GET
 	@Path("/{addressId}")
 	@Produces("{application/json,application/xml}")
 	public Address findAddressById(@PathParam("addressId") Short addressId) {
-		return addressDao.findById(addressId);
+		return addressActivity.findAddressById(addressId);
 	}
 
 	@Override
@@ -39,7 +38,6 @@ public class AddressServiceImpl implements AddressService {
 	@Produces("{application/json,application/xml}")
 	public List<Address> findAddressByCustomerId(
 			@PathParam("customerId") Short customerId) {
-		return addressDao.findAddressByCustomerId(customerId);
+		return addressActivity.findAddressByCustomerId(customerId);
 	}
-
 }

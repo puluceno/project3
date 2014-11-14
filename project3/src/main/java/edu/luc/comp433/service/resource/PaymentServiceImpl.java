@@ -1,7 +1,7 @@
 /**
  *
  */
-package edu.luc.comp433.service.impl;
+package edu.luc.comp433.service.resource;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +35,7 @@ public class PaymentServiceImpl {
 	@Produces("{application/json,application/xml}")
 	public List<Payment> findPaymentByCustomerId(
 			@QueryParam("customerId") Short customerId) {
-		return Collections.emptyList();
+		return paymentDao.findPaymentsByCustomer(customerId);
 	}
 
 }

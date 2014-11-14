@@ -2,6 +2,7 @@ package edu.luc.comp433.service;
 
 import java.util.List;
 
+import javax.jws.WebService;
 import javax.ws.rs.core.Response;
 
 import edu.luc.comp433.model.Order;
@@ -11,20 +12,20 @@ import edu.luc.comp433.model.Order;
  * @author Thiago Puluceno <tpuluceno@luc.edu>
  *
  */
-
+@WebService
 public interface OrderService extends BaseService<Short, Order> {
 
 	/**
 	 * Creates an order for the given customer.
 	 *
 	 * @param customer
-	 *            Customer who created the order
+	 *            CustomerRepresentation who created the order
 	 * @param address
-	 *            Address to delivery
+	 *            AddressRepresentation to delivery
 	 * @param books
 	 *            Books in the order
 	 * @param payment
-	 *            Payment information
+	 *            PaymentRepresentation information
 	 * @return Message to the customer informing whether the order has been
 	 *         created successfully or not.
 	 */
@@ -35,7 +36,7 @@ public interface OrderService extends BaseService<Short, Order> {
 	 * Cancel an order
 	 *
 	 * @param orderId
-	 *            Order ID used to find the order an then cancel it.
+	 *            OrderRepresentation ID used to find the order an then cancel it.
 	 * @return true if order is cancelled, otherwise false.
 	 */
 
@@ -45,7 +46,7 @@ public interface OrderService extends BaseService<Short, Order> {
 	 * Check the order status for a given order id
 	 *
 	 * @param orderId
-	 *            Order ID used to find the order an display its current status.
+	 *            OrderRepresentation ID used to find the order an display its current status.
 	 * @return Current order status.
 	 */
 

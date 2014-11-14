@@ -24,6 +24,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  *
  * @author Thiago Vieira Puluceno
@@ -80,10 +82,12 @@ public class Address implements BaseEntity<Short> {
 		this.state = state;
 	}
 
+	@Override
 	public Short getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Short id) {
 		this.id = id;
 	}
@@ -137,6 +141,7 @@ public class Address implements BaseEntity<Short> {
 	}
 
 	@XmlTransient
+	@JsonIgnore
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -146,6 +151,7 @@ public class Address implements BaseEntity<Short> {
 	}
 
 	@XmlTransient
+	@JsonIgnore
 	public List<Order> getOrderList() {
 		return orderList;
 	}
@@ -165,7 +171,8 @@ public class Address implements BaseEntity<Short> {
 		result = prime * result + ((number == null) ? 0 : number.hashCode());
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((street == null) ? 0 : street.hashCode());
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result
+				+ ((customer == null) ? 0 : customer.hashCode());
 		result = prime * result + zipcode;
 		return result;
 	}
@@ -225,4 +232,3 @@ public class Address implements BaseEntity<Short> {
 	}
 
 }
-
