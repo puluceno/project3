@@ -3,14 +3,12 @@
  */
 package edu.luc.comp433.service.resource;
 
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
-import edu.luc.comp433.model.Address;
 import edu.luc.comp433.service.AddressService;
 import edu.luc.comp433.service.workflow.AddressActivity;
 
@@ -28,7 +26,7 @@ public class AddressResource implements AddressService {
 	@GET
 	@Path("/{addressId}")
 	@Produces("{application/json,application/xml}")
-	public Address findAddressById(@PathParam("addressId") Short addressId) {
+	public Response findAddressById(@PathParam("addressId") Short addressId) {
 		return addressActivity.findAddressById(addressId);
 	}
 
@@ -36,7 +34,7 @@ public class AddressResource implements AddressService {
 	@GET
 	@Path("/customers/{customerId}")
 	@Produces("{application/json,application/xml}")
-	public List<Address> findAddressByCustomerId(
+	public Response findAddressByCustomerId(
 			@PathParam("customerId") Short customerId) {
 		return addressActivity.findAddressByCustomerId(customerId);
 	}

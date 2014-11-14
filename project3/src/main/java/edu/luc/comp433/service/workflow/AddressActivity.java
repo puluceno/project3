@@ -3,11 +3,11 @@
  */
 package edu.luc.comp433.service.workflow;
 
-import java.util.List;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import edu.luc.comp433.dao.AddressDao;
 import edu.luc.comp433.dao.impl.AddressDaoImpl;
-import edu.luc.comp433.model.Address;
 
 /**
  * @author Bruno Correa <brunogmc at gmail>
@@ -19,12 +19,14 @@ public class AddressActivity {
 
 	private AddressDao addressDao = new AddressDaoImpl();
 
-	public Address findAddressById(Short addressId) {
-		return addressDao.findById(addressId);
+	public Response findAddressById(Short addressId) {
+		return Response.status(Status.OK)
+				.entity(addressDao.findById(addressId)).build();
 	}
 
-	public List<Address> findAddressByCustomerId(Short customerId) {
-		return addressDao.findAddressByCustomerId(customerId);
+	public Response findAddressByCustomerId(Short customerId) {
+		return Response.status(Status.OK)
+				.entity(addressDao.findAddressByCustomerId(customerId)).build();
 	}
 
 }
