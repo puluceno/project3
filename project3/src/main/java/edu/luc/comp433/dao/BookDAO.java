@@ -21,7 +21,7 @@ public class BookDAO extends BaseDaoImpl<Short, Book> {
 		try {
 			return super.getEntityManager()
 					.createNamedQuery(Book.FIND_BY_TITLE, Book.class)
-					.setParameter("title", "%" + title + "%").getResultList();
+					.setParameter("title", "%" + title.toLowerCase() + "%").getResultList();
 		} catch (NoResultException e) {
 			return Collections.emptyList();
 		}
@@ -31,7 +31,7 @@ public class BookDAO extends BaseDaoImpl<Short, Book> {
 		try {
 			return super.getEntityManager()
 					.createNamedQuery(Book.FIND_BY_AUTHOR, Book.class)
-					.setParameter("author", "%" + author + "%").getResultList();
+					.setParameter("author", "%" + author.toLowerCase() + "%").getResultList();
 		} catch (NoResultException e) {
 			return Collections.emptyList();
 		}

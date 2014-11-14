@@ -9,7 +9,7 @@
 
 <!-- 	<jaxrs:server id="services" address="/"> -->
 <!-- 		<jaxrs:serviceBeans> -->
-<!-- 			<bean id="paymentService" class="edu.luc.comp433.service.impl.PaymentService" /> -->
+<!-- 			<bean id="paymentService" class="edu.luc.comp433.service.resource.PaymentService" /> -->
 <!-- 		</jaxrs:serviceBeans> -->
 <!-- 	</jaxrs:server> -->
 <!-- </beans> -->

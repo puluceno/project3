@@ -1,7 +1,7 @@
 /**
  *
  */
-package edu.luc.comp433.service.impl;
+package edu.luc.comp433.service.resource;
 
 import java.util.Collections;
 import java.util.List;

@@ -30,7 +30,7 @@ public class OrderNotFoundException extends RuntimeException {
 	 * @param orderId
 	 */
 	public OrderNotFoundException(Short orderId) {
-		this("Order Id#: " + orderId);
+		this("OrderRepresentation Id#: " + orderId);
 	}
 }
 

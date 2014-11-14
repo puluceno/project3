@@ -34,9 +34,9 @@ import edu.luc.comp433.model.enumerator.OrderStatus;
 @Table(schema = "bookstore")
 @XmlRootElement
 @NamedQueries({
-		@NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order_ o"),
-		@NamedQuery(name = "Order.findById", query = "SELECT o FROM Order_ o WHERE o.id = :id"),
-		@NamedQuery(name = "Order.findByStatus", query = "SELECT o FROM Order_ o WHERE o.status = :status") })
+		@NamedQuery(name = "OrderRepresentation.findAll", query = "SELECT o FROM Order_ o"),
+		@NamedQuery(name = "OrderRepresentation.findById", query = "SELECT o FROM Order_ o WHERE o.id = :id"),
+		@NamedQuery(name = "OrderRepresentation.findByStatus", query = "SELECT o FROM Order_ o WHERE o.status = :status") })
 public class Order implements BaseEntity<Short> {
 	private static final long serialVersionUID = 1L;
 	@Id

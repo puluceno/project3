@@ -3,6 +3,7 @@
  */
 package edu.luc.comp433.service;
 
+import javax.jws.WebService;
 import javax.ws.rs.core.Response;
 
 import edu.luc.comp433.model.Customer;
@@ -12,7 +13,7 @@ import edu.luc.comp433.model.Customer;
  * @author Thiago Puluceno <tpuluceno@luc.edu>
  *
  */
-
+@WebService
 public interface CustomerService extends BaseService<Short, Customer> {
 
 	/**
@@ -23,7 +24,7 @@ public interface CustomerService extends BaseService<Short, Customer> {
 	 *            User login
 	 * @return All customer data.
 	 */
-	public Customer findCustomerByLogin(String login);
+	public Response findByLogin(String login);
 
 	/**
 	 * @param customer
@@ -31,8 +32,8 @@ public interface CustomerService extends BaseService<Short, Customer> {
 	 * @param payment
 	 * @return
 	 */
-	public Response createCustomer(Customer customer);
+	public Response create(Customer customer);
 
-	public Customer updateCustomer(Short customerId, Customer customer);
-
+	public Response update(Short customerId, Customer customer);
+	
 }
