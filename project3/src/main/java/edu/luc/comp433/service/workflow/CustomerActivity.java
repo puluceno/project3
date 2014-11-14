@@ -1,9 +1,5 @@
 /**
-<<<<<<< HEAD
- *
-=======
  * 
->>>>>>> 4c657f26c40cdb0ad1f619fdc33403f0bf6b2bb8
  */
 package edu.luc.comp433.service.workflow;
 
@@ -68,11 +64,7 @@ public class CustomerActivity {
 				}
 				customerDao.getEntityManager().getTransaction().commit();
 			} else {
-<<<<<<< HEAD
-				response = Response.status(Status.BAD_REQUEST).build();
-=======
 				response = Response.status(Status.EXPECTATION_FAILED).build();
->>>>>>> 4c657f26c40cdb0ad1f619fdc33403f0bf6b2bb8
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
