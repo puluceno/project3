@@ -35,7 +35,7 @@ public class PaymentServiceImpl {
 	@Produces("{application/json,application/xml}")
 	public List<Payment> findPaymentByCustomerId(
 			@QueryParam("customerId") Short customerId) {
-		return Collections.emptyList();
+		return paymentDao.findPaymentsByCustomer(customerId);
 	}
 
 }
