@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package edu.luc.comp433.service.workflow;
 
@@ -19,6 +19,11 @@ public class BookActivity {
 
 	BookDAO bookDAO = new BookDAO();
 
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
 	public BookRepresentation searchById(Short id) {
 		BookRepresentation bookRep = null;
 		Book book = (null != id) ? bookDAO.findById(id) : null;

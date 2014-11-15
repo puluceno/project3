@@ -10,6 +10,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import edu.luc.comp433.model.Book;
 import edu.luc.comp433.service.BookService;
@@ -25,33 +27,39 @@ import edu.luc.comp433.service.workflow.BookActivity;
 public class BookResource extends BaseResource<Short, Book> implements
 		BookService {
 
+	private static final BookActivity BOOK_ACTIVITY = new BookActivity();
+
 	@Override
 	@GET
 	@Path("{id}")
 	@Produces({ "application/json", "application/xml" })
-	public BookRepresentation retrieve(@PathParam("id") Short id) {
+	public Response retrieve(@PathParam("id") Short id) {
+
 		if (null == id)
 			throw new WebApplicationException(400);
-		BookRepresentation book = new BookActivity().searchById(id);
+
+		BookRepresentation book = BOOK_ACTIVITY.searchById(id);
+
 		if (null == book)
 			throw new WebApplicationException(404);
-		return book;
+
+		return Response.status(Status.OK).entity(book).build();
 	}
 
 	@Override
 	@GET
 	@Produces({ "application/json", "application/xml" })
-	public List<BookRepresentation> retrieve(@QueryParam("title") String title,
+	public Response retrieve(@QueryParam("title") String title,
 			@QueryParam("author") String author,
 			@DefaultValue("0") @QueryParam("minPrice") BigDecimal minPrice,
 			@DefaultValue("9999") @QueryParam("maxPrice") BigDecimal maxPrice) {
 
-		List<BookRepresentation> books = new BookActivity().genericSearch(
-				title, author, minPrice, maxPrice);
+		List<BookRepresentation> books = BOOK_ACTIVITY.genericSearch(title,
+				author, minPrice, maxPrice);
 
 		if (books.isEmpty())
 			throw new WebApplicationException(404);
-		return books;
-	}
 
+		return Response.status(Status.OK).entity(books).build();
+	}
 }
