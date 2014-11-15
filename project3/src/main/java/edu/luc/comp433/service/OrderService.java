@@ -1,8 +1,5 @@
 package edu.luc.comp433.service;
 
-import java.util.List;
-
-import javax.jws.WebService;
 import javax.ws.rs.core.Response;
 
 import edu.luc.comp433.model.Order;
@@ -12,7 +9,6 @@ import edu.luc.comp433.model.Order;
  * @author Thiago Puluceno <tpuluceno@luc.edu>
  *
  */
-@WebService
 public interface OrderService extends BaseService<Short, Order> {
 
 	/**
@@ -40,7 +36,7 @@ public interface OrderService extends BaseService<Short, Order> {
 	 * @return true if order is cancelled, otherwise false.
 	 */
 
-	public Boolean cancelOrder(Short orderId);
+	public Response cancelOrder(Short orderId);
 
 	/**
 	 * Check the order status for a given order id
@@ -60,6 +56,6 @@ public interface OrderService extends BaseService<Short, Order> {
 	 * @return List of orders sorted by Status.
 	 */
 
-	List<Order> findOrderByCustomerLogin(String login);
+	public Response findOrderByCustomerLogin(String login);
 
 }
