@@ -7,7 +7,7 @@ package edu.luc.comp433.service.exception;
  * @author Bruno Correa <brunogmc at gmail>
  *
  */
-public class OrderNotFoundException extends RuntimeException {
+public class OrderNotFoundException extends Exception {
 
 	/**
 	 * 

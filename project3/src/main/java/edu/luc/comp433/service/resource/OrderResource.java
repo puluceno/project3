@@ -1,5 +1,6 @@
 package edu.luc.comp433.service.resource;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -10,9 +11,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import edu.luc.comp433.model.Order;
+import edu.luc.comp433.model.enumerator.OrderStatus;
 import edu.luc.comp433.service.OrderService;
+import edu.luc.comp433.service.exception.OrderNotFoundException;
 import edu.luc.comp433.service.workflow.OrderActivity;
 
 /**
@@ -28,15 +32,42 @@ public class OrderResource implements OrderService {
 	@Override
 	@POST
 	@Consumes("{application/json, application/xml}")
+	@Produces("{application/json, application/xml}")
 	public Response createOrder(Order order) {
-		return orderActivity.createOrder(order);
+		Response response = null;
+		try {
+			if (null != order) {
+				order = orderActivity.createOrder(order);
+				response = Response
+						.created(URI.create("/orders/" + order.getId()))
+						.entity(order).build();
+			} else {
+				response = Response.status(Status.BAD_REQUEST).build();
+			}
+		} catch (Exception e) {
+			response = Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+		return response;
 	}
 
 	@Override
 	@PUT
 	@Path("/{orderId:[0-9][0-9]*}")
-	public Boolean cancelOrder(@PathParam("orderId") Short orderId) {
-		return orderActivity.cancelOrder(orderId);
+	public Response cancelOrder(@PathParam("orderId") Short orderId) {
+		Response response = null;
+		try {
+			if (null != orderId) {
+				boolean orderCancelled = orderActivity.cancelOrder(orderId);
+				response = Response.ok().entity(orderCancelled).build();
+			} else {
+				response = Response.status(Status.BAD_REQUEST).build();
+			}
+		} catch (OrderNotFoundException e) {
+			response = Response.status(Status.NOT_FOUND).build();
+		} catch (Exception e) {
+			response = Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+		return response;
 	}
 
 	@Override
@@ -44,15 +75,34 @@ public class OrderResource implements OrderService {
 	@Path("/{orderId:[0-9][0-9]*}")
 	@Produces("{application/json,application/xml}")
 	public Response checkOrderStatus(@PathParam("orderId") Short orderId) {
-		return orderActivity.checkOrderStatus(orderId);
+		Response response = null;
+		try {
+			if (null != orderId) {
+				OrderStatus status = orderActivity.checkOrderStatus(orderId);
+				response = Response.status(Status.OK).entity(status).build();
+			} else {
+				response = Response.status(Status.BAD_REQUEST).build();
+			}
+		} catch (OrderNotFoundException e) {
+			response = Response.status(Status.NOT_FOUND).build();
+		}
+		return response;
 	}
 
 	@Override
 	@GET
 	@Path("/{login}")
 	@Produces("{application/json,application/xml}")
-	public List<Order> findOrderByCustomerLogin(@PathParam("login") String login) {
-		return orderActivity.findOrderByCustomerLogin(login);
+	public Response findOrderByCustomerLogin(@PathParam("login") String login) {
+		Response response = null;
+		List<Order> orders = null;
+		try {
+			orders = orderActivity.findOrderByCustomerLogin(login);
+			response = Response.ok().entity(orders).build();
+		} catch (OrderNotFoundException e) {
+			response = Response.status(Status.NOT_FOUND).build();
+		}
+		return response;
 	}
 
 }

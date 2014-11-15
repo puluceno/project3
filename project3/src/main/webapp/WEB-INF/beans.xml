@@ -9,7 +9,7 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 
 	<jaxrs:server id="services" address="/">
 		<jaxrs:serviceBeans>
-			<bean id="paymentService" class="edu.luc.comp433.service.resource.PaymentServiceImpl" />
+			<bean id="paymentService" class="edu.luc.comp433.service.resource.PaymentResource" />
 			<bean id="bookResource" class="edu.luc.comp433.service.resource.BookResource" />
 			<bean id="customerResource" class="edu.luc.comp433.service.resource.CustomerResource" />
 		</jaxrs:serviceBeans>
