@@ -3,9 +3,8 @@
  */
 package edu.luc.comp433.service;
 
-import java.util.List;
-
 import javax.jws.WebService;
+import javax.ws.rs.core.Response;
 
 import edu.luc.comp433.model.Payment;
 
@@ -17,8 +16,8 @@ import edu.luc.comp433.model.Payment;
 @WebService
 public interface PaymentService extends BaseService<Short, Payment> {
 
-	public Payment findPaymentById(Short paymentId);
+	public Response findPaymentById(Short paymentId);
 
-	public List<Payment> findPaymentByCustomerId(Short customerId);
+	public Response findPaymentByCustomerId(Short customerId);
 
 }
