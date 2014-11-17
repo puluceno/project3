@@ -8,6 +8,7 @@ import java.util.List;
 
 import edu.luc.comp433.dao.OrderDao;
 import edu.luc.comp433.dao.impl.OrderDaoImpl;
+import edu.luc.comp433.model.Address;
 import edu.luc.comp433.model.Book;
 import edu.luc.comp433.model.Customer;
 import edu.luc.comp433.model.Order;
@@ -24,8 +25,9 @@ public class OrderActivity {
 
 	public Order createOrder(Order order) {
 		try {
-			/* Computing the total amount of the order and
-			 *  adding the new order to each book order list 
+			/*
+			 * Computing the total amount of the order and adding the new order
+			 * to each book order list
 			 */
 			BigDecimal amount = new BigDecimal(0);
 			for (Book book : order.getBookList()) {
@@ -34,18 +36,23 @@ public class OrderActivity {
 			}
 			order.getPayment().setAmount(amount);
 			Customer customer = order.getCustomer();
-			customer.getAddressList().add(order.getAddress());
-			customer.getPaymentList().add(order.getPayment());
+			Address address = order.getAddress();
+			if (null != customer.getId()) {
+				address = new AddressActivity()
+						.findAddressByCustomerIdAndAddressInformation(
+								customer.getId(), order.getAddress());
+			}
+			customer.getAddressList().add(address);
 			customer = new CustomerActivity().createOrUpdate(customer);
-			
+
 			order.setStatus(OrderStatus.PROCESSING);
 			order.setCustomer(customer);
-			order.setAddress(customer.getAddressList().get(0));
-			order.setPayment(customer.getPaymentList().get(0));
+			order.setAddress(address);
+			order.setPayment(order.getPayment());
 			orderDao.getEntityManager().getTransaction().begin();
 			order = orderDao.merge(order);
 			orderDao.getEntityManager().getTransaction().commit();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			orderDao.getEntityManager().getTransaction().rollback();
@@ -85,6 +92,9 @@ public class OrderActivity {
 			throws OrderNotFoundException {
 		// TODO Review logic inside this method
 		List<Order> orders = orderDao.findOrderByCustomerLogin(login);
+		for (Order order : orders) {
+			order.setCustomer(null);
+		}
 		if (null == orders || orders.isEmpty())
 			throw new OrderNotFoundException();
 		return orders;

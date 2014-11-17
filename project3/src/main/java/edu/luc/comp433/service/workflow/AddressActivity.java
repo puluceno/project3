@@ -37,4 +37,10 @@ public class AddressActivity {
 		return addressDao.findAddressByCustomerId(customerId);
 	}
 
+	public Address findAddressByCustomerIdAndAddressInformation(
+			Short customerId, Address address) {
+		return addressDao.findAddressByCustomerIdAndAddressInformation(
+				customerId, address);
+	}
+
 }

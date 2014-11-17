@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  *
@@ -57,17 +56,13 @@ public class Customer implements BaseEntity<Short> {
 	@Basic(optional = false)
 	private String name;
 
-	@JsonManagedReference(value="customer-address")
+//	@JsonManagedReference(value="customer-address")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Address> addressList = new ArrayList<Address>();
 
-	@JsonManagedReference(value="customer-order")
+//	@JsonManagedReference(value="customer-order")
 	@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Order> orderList = new ArrayList<Order>();
-
-	@JsonManagedReference(value="customer-payment")
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.LAZY)
-	private List<Payment> paymentList = new ArrayList<Payment>();
 
 	public Customer() {
 	}
@@ -139,17 +134,6 @@ public class Customer implements BaseEntity<Short> {
 		this.orderList = orderList;
 	}
 
-	@XmlTransient
-	@JsonIgnore
-	public List<Payment> getPaymentList() {
-		return paymentList;
-	}
-
-	@JsonIgnore
-	public void setPaymentList(List<Payment> paymentList) {
-		this.paymentList = paymentList;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -163,8 +147,6 @@ public class Customer implements BaseEntity<Short> {
 				+ ((orderList == null) ? 0 : orderList.hashCode());
 		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result
-				+ ((paymentList == null) ? 0 : paymentList.hashCode());
 		return result;
 	}
 
@@ -206,11 +188,6 @@ public class Customer implements BaseEntity<Short> {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
-			return false;
-		if (paymentList == null) {
-			if (other.paymentList != null)
-				return false;
-		} else if (!paymentList.equals(other.paymentList))
 			return false;
 		return true;
 	}

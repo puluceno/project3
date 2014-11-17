@@ -33,7 +33,7 @@ public class CustomerResource implements CustomerService {
 	@Override
 	@GET
 	@Path("/{login}")
-	@Produces({ "application/json", "application/xml" })
+	@Produces({ "application/json" })
 	public Response findByLogin(@PathParam("login") String login) {
 		Customer customer = null;
 		Response response = null;
@@ -50,8 +50,8 @@ public class CustomerResource implements CustomerService {
 
 	@Override
 	@POST
-	@Consumes({ "application/json", "application/xml" })
-	@Produces({ "application/json", "application/xml" })
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
 	public Response create(Customer customer) {
 		Response response = null;
 		try {
@@ -73,8 +73,8 @@ public class CustomerResource implements CustomerService {
 	@Override
 	@PUT
 	@Path("/{customerId}")
-	@Consumes({ "application/json", "application/xml" })
-	@Produces({ "application/json", "application/xml" })
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
 	public Response update(Customer customer) {
 		Response response = null;
 		try {

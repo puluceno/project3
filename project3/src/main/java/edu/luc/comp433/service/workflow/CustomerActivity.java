@@ -7,7 +7,6 @@ import edu.luc.comp433.dao.CustomerDao;
 import edu.luc.comp433.dao.impl.CustomerDaoImpl;
 import edu.luc.comp433.model.Address;
 import edu.luc.comp433.model.Customer;
-import edu.luc.comp433.model.Payment;
 import edu.luc.comp433.service.exception.InvalidAddressException;
 import edu.luc.comp433.service.exception.InvalidPaymentException;
 
@@ -54,31 +53,20 @@ public class CustomerActivity {
 	}
 
 	private void validateAddressAndPayment(Customer customer)
-			throws InvalidAddressException, InvalidPaymentException {
+			throws InvalidAddressException {
 		if (customer == null || customer.getAddressList() == null
 				|| customer.getAddressList().isEmpty())
 			throw new InvalidAddressException();
-
-		if (customer.getPaymentList() == null
-				|| customer.getPaymentList().isEmpty())
-			throw new InvalidPaymentException();
 	}
 
 	private void createCustomerRelations(Customer customer)
-			throws InvalidPaymentException, InvalidAddressException {
+			throws InvalidAddressException {
 		if (null == customer.getAddressList()
 				|| customer.getAddressList().isEmpty())
 			throw new InvalidAddressException();
-		if (null == customer.getPaymentList()
-				|| customer.getPaymentList().isEmpty())
-			throw new InvalidPaymentException();
 
 		for (Address address : customer.getAddressList()) {
 			address.setCustomer(customer);
-		}
-
-		for (Payment payment : customer.getPaymentList()) {
-			payment.setCustomer(customer);
 		}
 	}
 

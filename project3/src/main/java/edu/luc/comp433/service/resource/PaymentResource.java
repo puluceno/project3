@@ -28,7 +28,7 @@ public class PaymentResource implements PaymentService {
 
 	@GET
 	@Path("{id}")
-	@Produces({ "application/json", "application/xml" })
+	@Produces({ "application/json" })
 	public Response findPaymentById(@PathParam("id") Short id) {
 		Response response = null;
 		if (null != id) {
@@ -45,7 +45,7 @@ public class PaymentResource implements PaymentService {
 	}
 
 	@GET
-	@Produces({ "application/json", "application/xml" })
+	@Produces({ "application/json" })
 	@Path("/customers/{customerId}")
 	public Response findPaymentByCustomerId(
 			@PathParam("customerId") Short customerId) {

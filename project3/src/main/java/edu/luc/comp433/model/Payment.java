@@ -6,34 +6,24 @@
 package edu.luc.comp433.model;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import edu.luc.comp433.model.enumerator.PaymentType;
 
@@ -69,14 +59,8 @@ public class Payment implements BaseEntity<Short> {
 	@Basic(optional = false)
 	private BigDecimal amount;
 	
-	@JsonManagedReference(value="payment-order")
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "payment", fetch = FetchType.LAZY)
-	private List<Order> orderList = new ArrayList<Order>();
-	
-	@JsonBackReference(value="customer-payment")
-	@JoinColumn(name = "customer", referencedColumnName = "id")
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private Customer customer;
+	@OneToOne
+	private Order order;
 	
 	@Basic(optional = true)
 	private String cardNumber;
@@ -132,24 +116,12 @@ public class Payment implements BaseEntity<Short> {
 		this.amount = amount;
 	}
 
-	@XmlTransient
-	@JsonIgnore
-	public List<Order> getOrderList() {
-		return orderList;
+	public Order getOrder() {
+		return order;
 	}
 
-	@JsonIgnore
-	public void setOrderList(List<Order> orderList) {
-		this.orderList = orderList;
-	}
-
-	@JsonIgnore
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	/**
@@ -234,10 +206,8 @@ public class Payment implements BaseEntity<Short> {
 		result = prime * result + ((amount == null) ? 0 : amount.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
-				+ ((orderList == null) ? 0 : orderList.hashCode());
+				+ ((order == null) ? 0 : order.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result
-				+ ((customer == null) ? 0 : customer.hashCode());
 		return result;
 	}
 
@@ -260,20 +230,15 @@ public class Payment implements BaseEntity<Short> {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (orderList == null) {
-			if (other.orderList != null)
+		if (order== null) {
+			if (other.order!= null)
 				return false;
-		} else if (!orderList.equals(other.orderList))
+		} else if (!order.equals(other.order))
 			return false;
 		if (type == null) {
 			if (other.type != null)
 				return false;
 		} else if (!type.equals(other.type))
-			return false;
-		if (customer == null) {
-			if (other.customer != null)
-				return false;
-		} else if (!customer.equals(other.customer))
 			return false;
 		return true;
 	}
