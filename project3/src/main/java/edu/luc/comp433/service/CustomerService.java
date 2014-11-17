@@ -32,6 +32,6 @@ public interface CustomerService extends BaseService<Short, Customer> {
 	 */
 	public Response create(Customer customer);
 
-	public Response update(Short customerId, Customer customer);
+	public Response update(Customer customer);
 
 }

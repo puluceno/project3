@@ -72,10 +72,11 @@ public class Address implements BaseEntity<Short> {
 		this.id = id;
 	}
 
-	public Address(Short id, String street, String number, int zipcode,
+	public Address(Short id, String street, String complement, String number, int zipcode,
 			String city, String state) {
 		this.id = id;
 		this.street = street;
+		this.complement = complement;
 		this.number = number;
 		this.zipcode = zipcode;
 		this.city = city;
@@ -140,8 +141,8 @@ public class Address implements BaseEntity<Short> {
 		this.state = state;
 	}
 
-	@XmlTransient
 	@JsonIgnore
+	@XmlTransient
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -150,8 +151,8 @@ public class Address implements BaseEntity<Short> {
 		this.customer = customer;
 	}
 
-	@XmlTransient
 	@JsonIgnore
+	@XmlTransient
 	public List<Order> getOrderList() {
 		return orderList;
 	}

@@ -31,8 +31,8 @@ public class OrderResource implements OrderService {
 
 	@Override
 	@POST
-	@Consumes("{application/json, application/xml}")
-	@Produces("{application/json, application/xml}")
+	@Consumes({ "application/json", "application/xml" })
+	@Produces({ "application/json", "application/xml" })
 	public Response createOrder(Order order) {
 		Response response = null;
 		try {
@@ -52,7 +52,8 @@ public class OrderResource implements OrderService {
 
 	@Override
 	@PUT
-	@Path("/{orderId:[0-9][0-9]*}")
+	@Path("/{orderId:[0-9]+}/cancel")
+	@Produces({ "application/json", "application/xml" })
 	public Response cancelOrder(@PathParam("orderId") Short orderId) {
 		Response response = null;
 		try {
@@ -72,8 +73,8 @@ public class OrderResource implements OrderService {
 
 	@Override
 	@GET
-	@Path("/{orderId:[0-9][0-9]*}")
-	@Produces("{application/json,application/xml}")
+	@Path("/{orderId:[0-9]+}/status")
+	@Produces({ "application/json", "application/xml" })
 	public Response checkOrderStatus(@PathParam("orderId") Short orderId) {
 		Response response = null;
 		try {
@@ -92,7 +93,7 @@ public class OrderResource implements OrderService {
 	@Override
 	@GET
 	@Path("/{login}")
-	@Produces("{application/json,application/xml}")
+	@Produces({ "application/json", "application/xml" })
 	public Response findOrderByCustomerLogin(@PathParam("login") String login) {
 		Response response = null;
 		List<Order> orders = null;

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
@@ -27,11 +28,12 @@ public class PaymentResource implements PaymentService {
 	private PaymentActivity paymentActivity = new PaymentActivity();
 
 	@GET
-	@Produces("{application/json,application/xml}")
-	public Response findPaymentById(@QueryParam("paymentId") Short paymentId) {
+	@Path("{id}")
+	@Produces({ "application/json", "application/xml" })
+	public Response findPaymentById(@PathParam("id") Short id) {
 		Response response = null;
-		if (null != paymentId) {
-			Payment payment = paymentActivity.findPaymentById(paymentId);
+		if (null != id) {
+			Payment payment = paymentActivity.findPaymentById(id);
 			if (null != payment) {
 				response = Response.ok(payment).build();
 			} else {
@@ -44,7 +46,7 @@ public class PaymentResource implements PaymentService {
 	}
 
 	@GET
-	@Produces("{application/json,application/xml}")
+	@Produces({ "application/json", "application/xml" })
 	public Response findPaymentByCustomerId(
 			@QueryParam("customerId") Short customerId) {
 		Response response = null;

@@ -7,7 +7,7 @@ package edu.luc.comp433.service.exception;
  * @author Bruno Correa <brunogmc at gmail>
  *
  */
-public class InvalidAddressException extends RuntimeException {
+public class InvalidAddressException extends Exception {
 
 	/**
 	 * 

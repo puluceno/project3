@@ -9,9 +9,12 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 
 	<jaxrs:server id="services" address="/">
 		<jaxrs:serviceBeans>
-			<bean id="paymentService" class="edu.luc.comp433.service.resource.PaymentResource" />
 			<bean id="bookResource" class="edu.luc.comp433.service.resource.BookResource" />
 			<bean id="customerResource" class="edu.luc.comp433.service.resource.CustomerResource" />
+			<bean id="addressResource" class="edu.luc.comp433.service.resource.AddressResource" />
+			<bean id="orderResource" class="edu.luc.comp433.service.resource.OrderResource" />
+			<bean id="paymentResource" class="edu.luc.comp433.service.resource.PaymentResource" />
+			<bean id="apiVersion" class="edu.luc.comp433.service.resource.APIVersion" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />

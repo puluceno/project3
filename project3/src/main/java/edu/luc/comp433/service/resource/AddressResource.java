@@ -27,7 +27,7 @@ public class AddressResource implements AddressService {
 	@Override
 	@GET
 	@Path("/{addressId}")
-	@Produces("{application/json,application/xml}")
+	@Produces({ "application/json", "application/xml" })
 	public Response findAddressById(@PathParam("addressId") Short addressId) {
 		if (addressId == null)
 			throw new WebApplicationException(400);
@@ -38,7 +38,7 @@ public class AddressResource implements AddressService {
 	@Override
 	@GET
 	@Path("/customers/{customerId}")
-	@Produces("{application/json,application/xml}")
+	@Produces({ "application/json", "application/xml" })
 	public Response findAddressByCustomerId(
 			@PathParam("customerId") Short customerId) {
 		if (customerId == null)

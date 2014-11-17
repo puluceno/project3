@@ -23,5 +23,6 @@ public class PaymentActivity {
 		
 	public List<Payment> findPaymentByCustomerId(Short customerId) {
 		return paymentDao.findPaymentsByCustomer(customerId);
-	}
+	}	
+
 }

@@ -97,8 +97,8 @@ public class Order implements BaseEntity<Short> {
 		this.status = status;
 	}
 
-	@XmlTransient
 	@JsonIgnore
+	@XmlTransient
 	public List<Book> getBookList() {
 		return bookList;
 	}

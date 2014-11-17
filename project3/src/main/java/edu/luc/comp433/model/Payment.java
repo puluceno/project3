@@ -115,8 +115,8 @@ public class Payment implements BaseEntity<Short> {
 		this.amount = amount;
 	}
 
-	@XmlTransient
 	@JsonIgnore
+	@XmlTransient
 	public List<Order> getOrderList() {
 		return orderList;
 	}

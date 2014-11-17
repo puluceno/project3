@@ -22,6 +22,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  *
  * @author Thiago Vieira Puluceno
@@ -101,6 +103,8 @@ public class Customer implements BaseEntity<Short> {
 		this.name = name;
 	}
 
+	@JsonIgnore
+	@XmlTransient
 	public List<Address> getAddressList() {
 		return addressList;
 	}
@@ -109,6 +113,7 @@ public class Customer implements BaseEntity<Short> {
 		this.addressList = addressList;
 	}
 
+	@JsonIgnore
 	@XmlTransient
 	public List<Order> getOrderList() {
 		return orderList;
@@ -118,6 +123,7 @@ public class Customer implements BaseEntity<Short> {
 		this.orderList = orderList;
 	}
 
+	@JsonIgnore
 	@XmlTransient
 	public List<Payment> getPaymentList() {
 		return paymentList;

@@ -117,8 +117,8 @@ public class Book implements BaseEntity<Short> {
 		this.price = price;
 	}
 
-	@XmlTransient
 	@JsonIgnore
+	@XmlTransient
 	public List<Order> getOrderList() {
 		return orderList;
 	}

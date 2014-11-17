@@ -9,7 +9,6 @@ import java.util.List;
 
 import edu.luc.comp433.dao.BookDAO;
 import edu.luc.comp433.model.Book;
-import edu.luc.comp433.service.representation.BookRepresentation;
 
 /**
  * @author Bruno Correa <brunogmc at gmail>
@@ -24,48 +23,36 @@ public class BookActivity {
 	 * @param id
 	 * @return
 	 */
-	public BookRepresentation searchById(Short id) {
-		BookRepresentation bookRep = null;
-		Book book = (null != id) ? bookDAO.findById(id) : null;
-
-		if (null != book)
-			bookRep = new BookRepresentation(book.getId(), book.getTitle(),
-					book.getAuthor(), book.getPrice());
-
-		return bookRep;
+	public Book searchById(Short id) {
+		if (null == id)
+			throw new IllegalArgumentException("id must be passed.");
+		return bookDAO.findById(id);
 	}
 
 	/**
+	 * @param ids
 	 * @param title
 	 * @param author
 	 * @param minPrice
 	 * @param maxPrice
 	 * @return
 	 */
-	public List<BookRepresentation> genericSearch(String title, String author,
-			BigDecimal minPrice, BigDecimal maxPrice) {
+	public List<Book> genericSearch(List<Short> ids, String title,
+			String author, BigDecimal minPrice, BigDecimal maxPrice) {
 		List<Book> books = new ArrayList<Book>();
 
-		if (null != title)
+		if (null != ids && !ids.isEmpty())
+			books.addAll(bookDAO.findById(ids));
+		else if (null != title)
 			books.addAll(bookDAO.searchByTitle(title));
 		else if (null != author)
 			books.addAll(bookDAO.searchByAuthor(author));
 		else
 			books.addAll(bookDAO.searchByPrice(minPrice, maxPrice));
-		return toRepresentation(books);
+		return books;
 	}
 
-	/**
-	 * @param books
-	 * @return
-	 */
-	private List<BookRepresentation> toRepresentation(List<Book> books) {
-		List<BookRepresentation> booksRep = new ArrayList<BookRepresentation>();
-		for (Book book : books) {
-			BookRepresentation bookRep = new BookRepresentation(book.getId(),
-					book.getTitle(), book.getAuthor(), book.getPrice());
-			booksRep.add(bookRep);
-		}
-		return booksRep;
+	public List<Book> findBookByIds(List<Short> bookIdList) {
+		return bookDAO.findById(bookIdList);
 	}
 }
