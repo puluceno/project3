@@ -3,6 +3,8 @@
  */
 package edu.luc.comp433.service.resource;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -11,6 +13,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import edu.luc.comp433.model.Address;
 import edu.luc.comp433.service.AddressService;
 import edu.luc.comp433.service.workflow.AddressActivity;
 
@@ -19,7 +22,7 @@ import edu.luc.comp433.service.workflow.AddressActivity;
  * @author Thiago Puluceno <tpuluceno@luc.edu>
  *
  */
-@Path("/address")
+@Path("/addresses")
 public class AddressResource implements AddressService {
 
 	AddressActivity addressActivity = new AddressActivity();
@@ -31,8 +34,9 @@ public class AddressResource implements AddressService {
 	public Response findAddressById(@PathParam("addressId") Short addressId) {
 		if (addressId == null)
 			throw new WebApplicationException(400);
+		Address address = addressActivity.findAddressById(addressId);
 		return Response.status(Status.OK)
-				.entity(addressActivity.findAddressById(addressId)).build();
+				.entity(address).build();
 	}
 
 	@Override
@@ -43,8 +47,9 @@ public class AddressResource implements AddressService {
 			@PathParam("customerId") Short customerId) {
 		if (customerId == null)
 			throw new WebApplicationException(400);
+		List<Address> addresses = addressActivity.findAddressByCustomerId(customerId);
 		return Response.status(Status.OK)
-				.entity(addressActivity.findAddressByCustomerId(customerId))
+				.entity(addresses)
 				.build();
 	}
 }

@@ -31,7 +31,7 @@ public class BookResource extends BaseResource<Short, Book> implements
 	@Override
 	@GET
 	@Path("{id}")
-	@Produces({ "application/json", "application/xml" })
+	@Produces("application/json")
 	public Response retrieve(@PathParam("id") Short id) {
 
 		if (null == id)
@@ -47,7 +47,7 @@ public class BookResource extends BaseResource<Short, Book> implements
 
 	@Override
 	@GET
-	@Produces({ "application/json", "application/xml" })
+	@Produces("application/json")
 	public Response retrieve(@QueryParam("id") List<Short> ids,
 			@QueryParam("title") String title,
 			@QueryParam("author") String author,
