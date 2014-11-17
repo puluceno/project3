@@ -22,6 +22,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
@@ -36,6 +38,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 		@NamedQuery(name = "Customer.findById", query = "SELECT u FROM Customer u WHERE u.id = :id"),
 		@NamedQuery(name = "Customer.findByLogin", query = "SELECT u FROM Customer u WHERE u.login = :login"),
 		@NamedQuery(name = "Customer.findByName", query = "SELECT u FROM Customer u WHERE u.name = :name") })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Customer implements BaseEntity<Short> {
 
 	private static final long serialVersionUID = 1L;
@@ -54,15 +57,15 @@ public class Customer implements BaseEntity<Short> {
 	@Basic(optional = false)
 	private String name;
 
-	@JsonManagedReference
+	@JsonManagedReference(value="customer-address")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Address> addressList = new ArrayList<Address>();
 
-	@JsonManagedReference
+	@JsonManagedReference(value="customer-order")
 	@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Order> orderList = new ArrayList<Order>();
 
-	@JsonManagedReference
+	@JsonManagedReference(value="customer-payment")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Payment> paymentList = new ArrayList<Payment>();
 
@@ -115,28 +118,34 @@ public class Customer implements BaseEntity<Short> {
 	}
 
 	@XmlTransient
+	@JsonIgnore
 	public List<Address> getAddressList() {
 		return addressList;
 	}
 
+	@JsonIgnore
 	public void setAddress(List<Address> addressList) {
 		this.addressList = addressList;
 	}
 
 	@XmlTransient
+	@JsonIgnore
 	public List<Order> getOrderList() {
 		return orderList;
 	}
 
+	@JsonIgnore
 	public void setOrderList(List<Order> orderList) {
 		this.orderList = orderList;
 	}
 
 	@XmlTransient
+	@JsonIgnore
 	public List<Payment> getPaymentList() {
 		return paymentList;
 	}
 
+	@JsonIgnore
 	public void setPaymentList(List<Payment> paymentList) {
 		this.paymentList = paymentList;
 	}

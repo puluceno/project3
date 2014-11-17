@@ -90,49 +90,4 @@ public class OrderActivity {
 		return orders;
 	}
 
-	// /**
-	// * @param orderRequest
-	// * @return
-	// * @throws InvalidPaymentException
-	// * @throws InvalidAddressException
-	// */
-	// private Order createOrderFromOrderRequest(OrderRequest orderRequest)
-	// throws InvalidAddressException, InvalidPaymentException {
-	//
-	// Address address = new AddressActivity().findAddressById(orderRequest
-	// .getAddressId());
-	// Payment payment = new PaymentActivity().findPaymentById(orderRequest
-	// .getPaymentId());
-	// Customer customer = new CustomerActivity()
-	// .findCustomerByLogin(orderRequest.getCustomerLogin());
-	//
-	// new CustomerActivity().create(customer);
-	//
-	// List<Book> books = new BookActivity().findBookByIds(orderRequest
-	// .getBookIdList());
-	//
-	// Order order = new Order();
-	// order.getBookList().addAll(books);
-	//
-	// BigDecimal amount = new BigDecimal(0);
-	//
-	// for (Book book : books) {
-	// amount = amount.add(book.getPrice());
-	// book.getOrderList().add(order);
-	// }
-	//
-	// payment.setAmount(amount);
-	// order.setCustomer(customer);
-	// order.setAddress(address);
-	// order.setPayment(payment);
-	// order.setStatus(OrderStatus.PROCESSING);
-	// // TODO Finalize
-	// // customer = new CustomerActivity().create(customer, address, payment);
-	// // orderDao.getEntityManager().getTransaction().begin();
-	// // order = orderDao.merge(order);
-	// // orderDao.getEntityManager().getTransaction().commit();
-	//
-	// return order;
-	// }
-
 }
