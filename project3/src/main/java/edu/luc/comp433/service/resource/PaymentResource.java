@@ -9,7 +9,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -47,8 +46,9 @@ public class PaymentResource implements PaymentService {
 
 	@GET
 	@Produces({ "application/json", "application/xml" })
+	@Path("/customers/{customerId}")
 	public Response findPaymentByCustomerId(
-			@QueryParam("customerId") Short customerId) {
+			@PathParam("customerId") Short customerId) {
 		Response response = null;
 		if (null != customerId) {
 			List<Payment> payments = paymentActivity
