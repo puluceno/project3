@@ -30,26 +30,24 @@ public class AddressResource implements AddressService {
 	@Override
 	@GET
 	@Path("/{addressId}")
-	@Produces({ "application/json", "application/xml" })
+	@Produces("application/json")
 	public Response findAddressById(@PathParam("addressId") Short addressId) {
 		if (addressId == null)
 			throw new WebApplicationException(400);
 		Address address = addressActivity.findAddressById(addressId);
-		return Response.status(Status.OK)
-				.entity(address).build();
+		return Response.status(Status.OK).entity(address).build();
 	}
 
 	@Override
 	@GET
 	@Path("/customers/{customerId}")
-	@Produces({ "application/json", "application/xml" })
+	@Produces("application/json")
 	public Response findAddressByCustomerId(
 			@PathParam("customerId") Short customerId) {
 		if (customerId == null)
 			throw new WebApplicationException(400);
-		List<Address> addresses = addressActivity.findAddressByCustomerId(customerId);
-		return Response.status(Status.OK)
-				.entity(addresses)
-				.build();
+		List<Address> addresses = addressActivity
+				.findAddressByCustomerId(customerId);
+		return Response.status(Status.OK).entity(addresses).build();
 	}
 }

@@ -31,7 +31,7 @@ public class OrderResource implements OrderService {
 
 	@Override
 	@POST
-	@Consumes({ "application/json", "application/xml" })
+	@Consumes("application/json")
 	@Produces("application/json")
 	public Response createOrder(Order order) {
 		Response response = null;
