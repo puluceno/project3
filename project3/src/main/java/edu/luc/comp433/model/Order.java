@@ -22,7 +22,9 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import edu.luc.comp433.model.enumerator.OrderStatus;
 
@@ -47,14 +49,20 @@ public class Order implements BaseEntity<Short> {
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private OrderStatus status;
+	
+	@JsonManagedReference
 	@ManyToMany(mappedBy = "orderList", fetch = FetchType.LAZY)
 	private List<Book> bookList = new ArrayList<Book>();
+	
+	@JsonBackReference
 	@JoinColumn(name = "customer", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Customer customer;
+	
 	@JoinColumn(name = "payment", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Payment payment;
+	
 	@JoinColumn(name = "address", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Address address;

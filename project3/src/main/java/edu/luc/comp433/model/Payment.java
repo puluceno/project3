@@ -30,6 +30,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import edu.luc.comp433.model.enumerator.PaymentType;
@@ -47,32 +48,44 @@ import edu.luc.comp433.model.enumerator.PaymentType;
 		@NamedQuery(name = "Payment.findByType", query = "SELECT p FROM Payment p WHERE p.type = :type"),
 		@NamedQuery(name = "Payment.findByAmount", query = "SELECT p FROM Payment p WHERE p.amount = :amount") })
 public class Payment implements BaseEntity<Short> {
+	
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	private Short id;
+	
 	@Basic(optional = false)
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private PaymentType type;
+	
 	@Max(value = 99999)
 	@Min(value = 0)
 	@Basic(optional = false)
 	private BigDecimal amount;
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "payment", fetch = FetchType.LAZY)
 	private List<Order> orderList = new ArrayList<Order>();
+	
+	@JsonBackReference
 	@JoinColumn(name = "customer", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Customer customer;
+	
 	@Basic(optional = true)
 	private String cardNumber;
+	
 	@Basic(optional = true)
 	private String cardHolderName;
+	
 	@Basic(optional = true)
 	private int expirationMonth;
+	
 	@Basic(optional = true)
 	private int expirationYear;
+	
 	@Basic(optional = true)
 	private int securityCode;
 
@@ -125,7 +138,6 @@ public class Payment implements BaseEntity<Short> {
 		this.orderList = orderList;
 	}
 
-	@JsonIgnore
 	public Customer getCustomer() {
 		return customer;
 	}

@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  *
@@ -37,21 +37,32 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 		@NamedQuery(name = "Customer.findByLogin", query = "SELECT u FROM Customer u WHERE u.login = :login"),
 		@NamedQuery(name = "Customer.findByName", query = "SELECT u FROM Customer u WHERE u.name = :name") })
 public class Customer implements BaseEntity<Short> {
+
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	private Short id;
+
 	@Basic(optional = false)
 	private String login;
+
 	@Basic(optional = false)
 	private String password;
+
 	@Basic(optional = false)
 	private String name;
+
+	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Address> addressList = new ArrayList<Address>();
+
+	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Order> orderList = new ArrayList<Order>();
+
+	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Payment> paymentList = new ArrayList<Payment>();
 
@@ -103,7 +114,6 @@ public class Customer implements BaseEntity<Short> {
 		this.name = name;
 	}
 
-	@JsonIgnore
 	@XmlTransient
 	public List<Address> getAddressList() {
 		return addressList;
@@ -113,7 +123,6 @@ public class Customer implements BaseEntity<Short> {
 		this.addressList = addressList;
 	}
 
-	@JsonIgnore
 	@XmlTransient
 	public List<Order> getOrderList() {
 		return orderList;
@@ -123,7 +132,6 @@ public class Customer implements BaseEntity<Short> {
 		this.orderList = orderList;
 	}
 
-	@JsonIgnore
 	@XmlTransient
 	public List<Payment> getPaymentList() {
 		return paymentList;

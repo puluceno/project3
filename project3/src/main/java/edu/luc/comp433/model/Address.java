@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -43,25 +44,36 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 		@NamedQuery(name = "Address.findByCity", query = "SELECT a FROM Address a WHERE a.city = :city"),
 		@NamedQuery(name = "Address.findByState", query = "SELECT a FROM Address a WHERE a.state = :state") })
 public class Address implements BaseEntity<Short> {
+	
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	private Short id;
+	
 	@Basic(optional = false)
 	private String street;
+	
 	private String complement;
+	
 	@Basic(optional = false)
 	private String number;
+	
 	@Basic(optional = false)
 	private int zipcode;
+	
 	@Basic(optional = false)
 	private String city;
+	
 	@Basic(optional = false)
 	private String state;
+	
+	@JsonBackReference
 	@JoinColumn(name = "customer", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Customer customer;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "address", fetch = FetchType.LAZY)
 	private List<Order> orderList = new ArrayList<Order>();
 
@@ -141,7 +153,6 @@ public class Address implements BaseEntity<Short> {
 		this.state = state;
 	}
 
-	@JsonIgnore
 	@XmlTransient
 	public Customer getCustomer() {
 		return customer;
