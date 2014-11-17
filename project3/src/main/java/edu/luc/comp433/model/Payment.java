@@ -32,6 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import edu.luc.comp433.model.enumerator.PaymentType;
 
@@ -47,6 +49,7 @@ import edu.luc.comp433.model.enumerator.PaymentType;
 		@NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.id = :id"),
 		@NamedQuery(name = "Payment.findByType", query = "SELECT p FROM Payment p WHERE p.type = :type"),
 		@NamedQuery(name = "Payment.findByAmount", query = "SELECT p FROM Payment p WHERE p.amount = :amount") })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Payment implements BaseEntity<Short> {
 	
 	private static final long serialVersionUID = 1L;
@@ -66,10 +69,11 @@ public class Payment implements BaseEntity<Short> {
 	@Basic(optional = false)
 	private BigDecimal amount;
 	
+	@JsonManagedReference(value="payment-order")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "payment", fetch = FetchType.LAZY)
 	private List<Order> orderList = new ArrayList<Order>();
 	
-	@JsonBackReference
+	@JsonBackReference(value="customer-payment")
 	@JoinColumn(name = "customer", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Customer customer;
@@ -128,16 +132,18 @@ public class Payment implements BaseEntity<Short> {
 		this.amount = amount;
 	}
 
-	@JsonIgnore
 	@XmlTransient
+	@JsonIgnore
 	public List<Order> getOrderList() {
 		return orderList;
 	}
 
+	@JsonIgnore
 	public void setOrderList(List<Order> orderList) {
 		this.orderList = orderList;
 	}
 
+	@JsonIgnore
 	public Customer getCustomer() {
 		return customer;
 	}

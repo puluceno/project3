@@ -23,8 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import edu.luc.comp433.model.enumerator.OrderStatus;
 
@@ -39,30 +38,35 @@ import edu.luc.comp433.model.enumerator.OrderStatus;
 		@NamedQuery(name = "OrderRepresentation.findAll", query = "SELECT o FROM Order_ o"),
 		@NamedQuery(name = "OrderRepresentation.findById", query = "SELECT o FROM Order_ o WHERE o.id = :id"),
 		@NamedQuery(name = "OrderRepresentation.findByStatus", query = "SELECT o FROM Order_ o WHERE o.status = :status") })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Order implements BaseEntity<Short> {
+	
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	private Short id;
+	
 	@Basic(optional = false)
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private OrderStatus status;
 	
-	@JsonManagedReference
 	@ManyToMany(mappedBy = "orderList", fetch = FetchType.LAZY)
 	private List<Book> bookList = new ArrayList<Book>();
 	
-	@JsonBackReference
+	@JsonBackReference(value="customer-order")
 	@JoinColumn(name = "customer", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Customer customer;
 	
+	@JsonBackReference(value="payment-order")
 	@JoinColumn(name = "payment", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Payment payment;
 	
+	@JsonBackReference(value="address-order")
 	@JoinColumn(name = "address", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Address address;
@@ -105,7 +109,6 @@ public class Order implements BaseEntity<Short> {
 		this.status = status;
 	}
 
-	@JsonIgnore
 	@XmlTransient
 	public List<Book> getBookList() {
 		return bookList;

@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
  *
@@ -42,6 +43,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 		@NamedQuery(name = Book.FIND_BY_TITLE, query = "SELECT b FROM Book b WHERE LOWER(b.title) like :title"),
 		@NamedQuery(name = Book.FIND_BY_AUTHOR, query = "SELECT b FROM Book b WHERE LOWER(b.author) like :author"),
 		@NamedQuery(name = Book.FIND_BY_PRICE, query = "SELECT b FROM Book b WHERE b.price >= :minPrice and b.price <= :maxPrice") })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Book implements BaseEntity<Short> {
 
 	private static final long serialVersionUID = 1L;
@@ -57,16 +59,20 @@ public class Book implements BaseEntity<Short> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	private Short id;
+	
 	@Basic(optional = false)
 	private String title;
+	
 	@Basic(optional = false)
 	private String author;
+	
 	@Max(value = 9999)
 	@Min(value = 0)
 	@Basic(optional = false)
 	private BigDecimal price;
-	@JoinTable(schema = "bookstore", name = "Order_has_Book", joinColumns = { @JoinColumn(name = "book", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "order_", referencedColumnName = "id") })
+	
 	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(schema = "bookstore", name = "Order_has_Book", joinColumns = { @JoinColumn(name = "book", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "order_", referencedColumnName = "id") })
 	private List<Order> orderList = new ArrayList<Order>();
 
 	public Book() {
@@ -117,12 +123,13 @@ public class Book implements BaseEntity<Short> {
 		this.price = price;
 	}
 
-	@JsonIgnore
 	@XmlTransient
+	@JsonIgnore
 	public List<Order> getOrderList() {
 		return orderList;
 	}
 
+	@JsonIgnore
 	public void setOrderList(List<Order> orderList) {
 		this.orderList = orderList;
 	}

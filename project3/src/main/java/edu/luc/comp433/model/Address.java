@@ -26,6 +26,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 /**
  *
@@ -43,6 +45,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 		@NamedQuery(name = "Address.findByZipcode", query = "SELECT a FROM Address a WHERE a.zipcode = :zipcode"),
 		@NamedQuery(name = "Address.findByCity", query = "SELECT a FROM Address a WHERE a.city = :city"),
 		@NamedQuery(name = "Address.findByState", query = "SELECT a FROM Address a WHERE a.state = :state") })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Address implements BaseEntity<Short> {
 	
 	private static final long serialVersionUID = 1L;
@@ -69,11 +72,12 @@ public class Address implements BaseEntity<Short> {
 	@Basic(optional = false)
 	private String state;
 	
-	@JsonBackReference
+	@JsonBackReference(value="customer-address")
 	@JoinColumn(name = "customer", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Customer customer;
 
+	@JsonManagedReference(value="address-order")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "address", fetch = FetchType.LAZY)
 	private List<Order> orderList = new ArrayList<Order>();
 
@@ -154,20 +158,23 @@ public class Address implements BaseEntity<Short> {
 	}
 
 	@XmlTransient
+	@JsonIgnore
 	public Customer getCustomer() {
 		return customer;
 	}
 
+	@JsonIgnore
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
 
-	@JsonIgnore
 	@XmlTransient
+	@JsonIgnore
 	public List<Order> getOrderList() {
 		return orderList;
 	}
 
+	@JsonIgnore
 	public void setOrderList(List<Order> orderList) {
 		this.orderList = orderList;
 	}
