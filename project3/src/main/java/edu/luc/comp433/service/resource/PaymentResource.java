@@ -26,6 +26,7 @@ public class PaymentResource implements PaymentService {
 
 	private PaymentActivity paymentActivity = new PaymentActivity();
 
+	@Override
 	@GET
 	@Path("{id}")
 	@Produces({ "application/json" })
@@ -44,6 +45,7 @@ public class PaymentResource implements PaymentService {
 		return response;
 	}
 
+	@Override
 	@GET
 	@Produces({ "application/json" })
 	@Path("/customers/{customerId}")
