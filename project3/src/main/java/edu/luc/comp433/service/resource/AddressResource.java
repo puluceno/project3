@@ -35,8 +35,7 @@ public class AddressResource implements AddressService {
 		if (addressId == null)
 			throw new WebApplicationException(400);
 		Address address = addressActivity.findAddressById(addressId);
-		return Response.status(Status.OK)
-				.entity(address).build();
+		return Response.status(Status.OK).entity(address).build();
 	}
 
 	@Override
@@ -47,9 +46,8 @@ public class AddressResource implements AddressService {
 			@PathParam("customerId") Short customerId) {
 		if (customerId == null)
 			throw new WebApplicationException(400);
-		List<Address> addresses = addressActivity.findAddressByCustomerId(customerId);
-		return Response.status(Status.OK)
-				.entity(addresses)
-				.build();
+		List<Address> addresses = addressActivity
+				.findAddressByCustomerId(customerId);
+		return Response.status(Status.OK).entity(addresses).build();
 	}
 }
