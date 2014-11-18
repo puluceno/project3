@@ -22,6 +22,8 @@ import edu.luc.comp433.service.exception.OrderNotFoundException;
 public class OrderActivity {
 
 	private OrderDao orderDao = new OrderDaoImpl();
+	private CustomerActivity customerActivity = new CustomerActivity();
+	private AddressActivity addressActivity = new AddressActivity();
 
 	public Order createOrder(Order order) {
 		try {
@@ -37,20 +39,44 @@ public class OrderActivity {
 			order.getPayment().setAmount(amount);
 			Customer customer = order.getCustomer();
 			Address address = order.getAddress();
-			if (null != customer.getId()) {
-				address = new AddressActivity()
+
+			/*
+			 * Verifies if the customer is already registered. In this case we
+			 * try to reuse an existing address to delivery.
+			 */
+			if (customerActivity.validateUserAuth(customer)) {
+				customer = customerActivity.findCustomerByLogin(customer
+						.getLogin());
+				address = addressActivity
 						.findAddressByCustomerIdAndAddressInformation(
 								customer.getId(), order.getAddress());
+
+				/* If it is a new address, update customer's address list */
+				if (null == address.getId()) {
+					customer.getAddressList().add(address);
+					customer = new CustomerActivity().update(customer);
+				}
+			} else {
+				customer.getAddressList().add(address);
+				customer = new CustomerActivity().create(customer);
 			}
-			customer.getAddressList().add(address);
-			customer = new CustomerActivity().createOrUpdate(customer);
+
+			/*
+			 * Retrieves the attached instance of the address to be used as the
+			 * order delivery address
+			 */
+			address = addressActivity
+					.findAddressByCustomerIdAndAddressInformation(
+							customer.getId(), address);
 
 			order.setStatus(OrderStatus.PROCESSING);
 			order.setCustomer(customer);
+			customer.getOrderList().add(order);
 			order.setAddress(address);
+			address.getOrderList().add(order);
 			order.setPayment(order.getPayment());
 			orderDao.getEntityManager().getTransaction().begin();
-			order = orderDao.merge(order);
+			orderDao.merge(order);
 			orderDao.getEntityManager().getTransaction().commit();
 
 		} catch (Exception e) {

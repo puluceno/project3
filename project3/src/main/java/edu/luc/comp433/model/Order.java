@@ -55,17 +55,14 @@ public class Order implements BaseEntity<Short> {
 	@ManyToMany(mappedBy = "orderList", fetch = FetchType.LAZY)
 	private List<Book> bookList = new ArrayList<Book>();
 	
-//	@JsonBackReference(value="customer-order")
 	@JoinColumn(name = "customer", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Customer customer;
 	
-//	@JsonBackReference(value="payment-order")
 	@JoinColumn(name = "payment", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Payment payment;
 	
-//	@JsonBackReference(value="address-order")
 	@JoinColumn(name = "address", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Address address;

@@ -70,4 +70,13 @@ public class CustomerActivity {
 		}
 	}
 
+	/**
+	 * @param customer
+	 * @return
+	 */
+	public boolean validateUserAuth(Customer customer) {
+		return customerDao.validateUserAuthentication(customer.getLogin(),
+				customer.getPassword());
+	}
+
 }

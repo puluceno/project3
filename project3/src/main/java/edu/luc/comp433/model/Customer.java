@@ -56,11 +56,9 @@ public class Customer implements BaseEntity<Short> {
 	@Basic(optional = false)
 	private String name;
 
-//	@JsonManagedReference(value="customer-address")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Address> addressList = new ArrayList<Address>();
 
-//	@JsonManagedReference(value="customer-order")
 	@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<Order> orderList = new ArrayList<Order>();
 

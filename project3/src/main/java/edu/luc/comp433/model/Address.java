@@ -70,12 +70,10 @@ public class Address implements BaseEntity<Short> {
 	@Basic(optional = false)
 	private String state;
 	
-//	@JsonBackReference(value="customer-address")
 	@JoinColumn(name = "customer", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Customer customer;
 
-//	@JsonManagedReference(value="address-order")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "address", fetch = FetchType.LAZY)
 	private List<Order> orderList = new ArrayList<Order>();
 
