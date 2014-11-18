@@ -69,14 +69,14 @@ public class OrderActivity {
 					.findAddressByCustomerIdAndAddressInformation(
 							customer.getId(), address);
 
+			orderDao.getEntityManager().getTransaction().begin();
 			order.setStatus(OrderStatus.PROCESSING);
 			order.setCustomer(customer);
 			customer.getOrderList().add(order);
 			order.setAddress(address);
 			address.getOrderList().add(order);
 			order.setPayment(order.getPayment());
-			orderDao.getEntityManager().getTransaction().begin();
-			orderDao.merge(order);
+			order = orderDao.merge(order);
 			orderDao.getEntityManager().getTransaction().commit();
 
 		} catch (Exception e) {

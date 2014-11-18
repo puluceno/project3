@@ -56,7 +56,7 @@ public class Order implements BaseEntity<Short> {
 	private List<Book> bookList = new ArrayList<Book>();
 	
 	@JoinColumn(name = "customer", referencedColumnName = "id")
-	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Customer customer;
 	
 	@JoinColumn(name = "payment", referencedColumnName = "id")
